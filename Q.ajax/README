@@ -1,0 +1,32 @@
+Q.ajax - small library (~1.2kb) for JavaScript to load remote page.
+
+Using an HTTP POST request:
+Q.ajax.post(url, data, callback, type)
+
+Using an HTTP GET request:
+Q.ajax.get(url, callback, type)
+
+url : string
+data(Optional) : Data Obj (Key/value)
+	this sent to the remote server.
+callback(Optional) : function
+	exec when request is done.
+type(Optional) : string
+	type of the return data: "text"(default), json.
+
+
+Example:
+
+function post() {
+	var value = document.getElementById("elm1").value;
+	var text = document.getElementById("elm2").innerHTML;
+	Q.ajax.post('test.php', { value: value, text: text }, function(data) {
+		alert(data);
+	});
+}
+
+function get() {
+	Q.ajax.get('test.php?a=2&b=test', function(data) {
+		alert(data);
+	});
+}
