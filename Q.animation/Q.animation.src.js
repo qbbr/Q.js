@@ -3,27 +3,29 @@
  * Copyright (c) 2009 Sokolov Innokenty
  */
 if(!Q) var Q = {};
-Q.animate = {
+Q.animation = {
 	timer: Array(),
+	rc: Array(),
 
 	parseObj : function(obj) {
-		var params = [];
+		var p = [];
 		for (var g in obj) {
 			if (typeof obj == "object") {
-				params2 = Array();
+				p2 = Array();
 				var obj2 = obj[g];
 				for (var g2 in obj2) {
 					if (!obj2[g2]) continue;
-					params2.push([g2,obj2[g2]]);
+					p2.push([g2,obj2[g2]]);
 				}
-				params.push(params2);
+				p.push(p2);
 			}
 		}
-		return params;
+		return p;
 	},
 
 	go: function(e, o, s) {
 		if(!e || !o) return;
+		this.rc["fontSize"] = "font-size";
 		this.s = (s) ? s : 100;
 		this.e = e;
 		this.ee = e;
@@ -35,11 +37,11 @@ Q.animate = {
 	make: function(o) {
 		this.l = 0;
 		for (var i = 0; i < this.obj[o].length; i++) {
-			this.animate(this.obj[o][i][0], this.css(this.obj[o][i][0]), this.obj[o][i][1], o+"_"+i);
+			this.animation(this.obj[o][i][0], this.css(this.obj[o][i][0]), this.obj[o][i][1], o+"_"+i);
 		}
 	},
 
-	animate: function(attr, start, end, n) {
+	animation: function(attr, start, end, n) {
 		start = parseInt(this.css(attr));
 		if(!start) start = 0;
 		var change = end - start;
@@ -58,7 +60,7 @@ Q.animate = {
 			return;
 		}
 		this.stopTimer(n);
-		this.startTimer(n, function() {Q.animate.animate(attr, start, end, n);}, this.s);
+		this.startTimer(n, function() {Q.animation.animation(attr, start, end, n);}, this.s);
 	},
 
 	startTimer: function(n, f, t) {
@@ -75,28 +77,35 @@ Q.animate = {
 	},
 
 	css: function(s, v) {
+		var ss = this.replace(s);
+		/*
 		switch (s) {
-			case "width":
-				if (v) this.e.style.width = parseInt(v)+"px";
-				else return this.e.style.width;
-				break;
-			case "height":
-				if (v) this.e.style.height = parseInt(v)+"px";
-				return this.e.style.height;
-				break;
-			case "paddingLeft":
-				if (v) this.e.style.paddingLeft = parseInt(v)+"px";
-				return this.e.style.paddingLeft;
-				break;
-			case "borderWidth":
-				if (v) this.e.style.borderWidth = parseInt(v)+"px";
-				return this.e.style.borderWidth;
-				break;
 			case "fontSize":
 				if (v) this.e.style.fontSize = parseInt(v)+"px";
-				return this.e.style.fontSize;
+				return this.getStyle(this.e, ss);
 				break;
-		}
+			default:
+				if (v) eval("this.e.style."+s+" = parseInt(v)+'px'");
+				return eval("this.e.style."+s);
+				break
+		}*/
+		if (v) eval("this.e.style."+s+" = parseInt("+v+")+'px'");
+		else return eval("this.e.style."+s);
+		//return this.getStyle(this.e, ss);
+
+	},
+/*
+	getStyle: function(elm,styleProp){
+		if (elm.currentStyle) var y = elm.currentStyle[styleProp];
+		else if (window.getComputedStyle) var y = document.defaultView.getComputedStyle(elm,null).getPropertyValue(styleProp);
+		else if (elm.style) var y = "elm.style."+styleProp;
+		return y;
+	},
+*/
+	replace: function(p) {
+		if(/msie/i.test(navigator.userAgent) && !/opera/i.test(navigator.userAgent)) {
+			return p;
+		} else return (this.rc[p]) ? this.rc[p] : p;
 	}
 
-}
+};
