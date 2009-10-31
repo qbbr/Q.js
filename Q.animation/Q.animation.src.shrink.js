@@ -3,14 +3,15 @@
  * Copyright (c) 2009 Sokolov Innokenty
  */
 if(!Q) var Q = {};
-Q.animate = {
-	timer: Array(),
+Q.animation = {
+	t: Array(),
+	rc: Array(),
 
-	parseObj : function(o) {
+	o : function(o) {
 		var p = [];
 		for (var g in o) {
-			if (typeof obj == "object") {
-				var p2 = [];
+			if (typeof o == "object") {
+				p2 = Array();
 				var o2 = o[g];
 				for (var g2 in o2) {
 					if (!o2[g2]) continue;
@@ -24,79 +25,87 @@ Q.animate = {
 
 	go: function(e, o, s) {
 		if(!e || !o) return;
+		this.rc["fontSize"] = "font-size";
 		this.s = (s) ? s : 100;
-		this.e = e;
+		this.e = e;s
 		this.ee = e;
-		this.obj = this.parseObj(o);
+		this.obj = this.o(o);
 		this.i = 0;
-		this.make(0);
+		this.m(0);
 	},
 
-	make: function(o) {
+	m: function(o) {
 		this.l = 0;
 		for (var i = 0; i < this.obj[o].length; i++) {
-			this.animate(this.obj[o][i][0], this.css(this.obj[o][i][0]), this.obj[o][i][1], o+"_"+i);
+			this.a(this.obj[o][i][0], this.css(this.obj[o][i][0]), this.obj[o][i][1], o+"_"+i);
 		}
 	},
 
-	animate: function(a, s, e, n) {
+	a: function(a, s, e, n) {
 		s = parseInt(this.css(a));
 		if(!s) s = 0;
-		var change = e - s;
-		var total = s + Math.ceil((change/2));
+		var c = e - s;
+		var total = s + Math.ceil((c/2));
 		this.css(a, total);
-		if(change == 0 || total == e-1 || total == e+1) {
-			this.stopTimer(n);
+		if(c == 0 || total == e-1 || total == e+1) {
+			this.stpT(n);
 			this.css(a, e);
 			this.l++;
 			if (this.l == this.obj[this.i].length) {
 				this.i++;
 				if (this.obj.length > this.i) {
-					this.make(this.i);
+					this.m(this.i);
 				}
 			}
 			return;
 		}
-		this.stopTimer(n);
-		this.startTimer(n, function() {Q.animate.animate(a, s, e, n);}, this.s);
+		this.stpT(n);
+		this.strT(n, function() {Q.animation.a(a, s, e, n);}, this.s);
 	},
 
-	startTimer: function(n, f, t) {
-		if(!this.timer[n])  {
-			this.timer[n] = setTimeout(f, t);
+	strT: function(n, f, t) {
+		if(!this.t[n])  {
+			this.t[n] = setTimeout(f, t);
 		}
 	},
 
-	stopTimer: function(n) {
-		if(this.timer[n]) {
-			clearTimeout(this.timer[n]);
-			this.timer[n] = null;
+	stpT: function(n) {
+		if(this.t[n]) {
+			clearTimeout(this.t[n]);
+			this.t[n] = null;
 		}
 	},
 
 	css: function(s, v) {
+		var ss = this.r(s);
+		/*
 		switch (s) {
-			case "width":
-				if (v) this.e.style.width = parseInt(v)+"px";
-				else return this.e.style.width;
-				break;
-			case "height":
-				if (v) this.e.style.height = parseInt(v)+"px";
-				return this.e.style.height;
-				break;
-			case "paddingLeft":
-				if (v) this.e.style.paddingLeft = parseInt(v)+"px";
-				return this.e.style.paddingLeft;
-				break;
-			case "borderWidth":
-				if (v) this.e.style.borderWidth = parseInt(v)+"px";
-				return this.e.style.borderWidth;
-				break;
 			case "fontSize":
 				if (v) this.e.style.fontSize = parseInt(v)+"px";
-				return this.e.style.fontSize;
+				return this.getStyle(this.e, ss);
 				break;
-		}
+			default:
+				if (v) eval("this.e.style."+s+" = parseInt(v)+'px'");
+				return eval("this.e.style."+s);
+				break
+		}*/
+		if (v) eval("this.e.style."+s+" = parseInt("+v+")+'px'");
+		else return eval("this.e.style."+s);
+		//return this.getStyle(this.e, ss);
+
+	},
+/*
+	getStyle: function(elm,styleProp){
+		if (elm.currentStyle) var y = elm.currentStyle[styleProp];
+		else if (window.getComputedStyle) var y = document.defaultView.getComputedStyle(elm,null).getPropertyValue(styleProp);
+		else if (elm.style) var y = "elm.style."+styleProp;
+		return y;
+	},
+*/
+	r: function(p) {
+		if(/msie/i.test(navigator.userAgent) && !/opera/i.test(navigator.userAgent)) {
+			return p;
+		} else return (this.rc[p]) ? this.rc[p] : p;
 	}
 
-}
+};
