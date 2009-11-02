@@ -1,1 +1,18 @@
-Q.animation
+Q.animation – small library for JavaScript to animation elements.
+
+Using:
+Q.animation.go(elm, [params])
+
+elm : Object (element)
+params : Data Obj (Key/value)
+
+Example:
+
+function animation() {
+	var e = document.getElementById("tt");
+	Q.animation.go(e, [
+		{ width: 100, height: 100 },
+		{ width: 500, height: 200 },
+		{ fontSize: 70 }
+	]);
+}
