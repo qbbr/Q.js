@@ -21,8 +21,7 @@ Q.hotkey = {
 		this.k[h] = h.toLowerCase().split("+");
 		this.c[h] = c;
 		document.onkeydown = function(e) {
-			e = e || window.event;
-			var p = [], n = [], s = false, m = 0;
+			p = [], n = [], s = false, m = 0, e = e || window.event;
 			if (e.keyCode) c = e.keyCode;
 			else if (e.which) c = e.which;
 			eval("if(Q.hotkey.s.k"+c+") {c = Q.hotkey.s.k"+c+";} else {c = String.fromCharCode(c).toLowerCase();}");
