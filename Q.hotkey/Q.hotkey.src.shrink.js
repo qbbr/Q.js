@@ -7,7 +7,7 @@
  * @example Q.hotkey.bind(combination, callback)
  * @desc bind shortcut combination (onkeydown)
  */
-if(!Q) var Q={};
+if(!Q) var Q = {};
 Q.hotkey = {
 	k: [],
 	c: [],
@@ -22,23 +22,21 @@ Q.hotkey = {
 		this.c[h] = c;
 		document.onkeydown = function(e) {
 			e = e || window.event;
-			var c;
+			var p = [], n = [], s = false, m = 0;
 			if (e.keyCode) c = e.keyCode;
 			else if (e.which) c = e.which;
-			eval("if(Q.hotkey.s.k"+c+") {c=Q.hotkey.s.k"+c+";} else {c = String.fromCharCode(c).toLowerCase();}");
-			var p = [], n = [], s = false, m = 0;
+			eval("if(Q.hotkey.s.k"+c+") {c = Q.hotkey.s.k"+c+";} else {c = String.fromCharCode(c).toLowerCase();}");
 			if (e.ctrlKey) p.push("ctrl");
 			if (e.shiftKey) p.push("shift");
 			if (e.altKey) p.push("alt");
 			if (p.length > 1) p.sort();
 			p.push(c);
-			var j = p.toString().replace(/\,/g, "+");
+			j = p.toString().replace(/\,/g, "+");
 			if (!Q.hotkey.k[j]) return;
-			var k = Q.hotkey.k[j];
-			for (var i = 0; i < k.length; i++) {
-				if (k[i] == "ctrl" || k[i] == "shift" || k[i] == "alt" ) {
-					m++;
-				} else if (m > 1 && !s) {
+			k = Q.hotkey.k[j];
+			for (i = 0; i < k.length; i++) {
+				if (k[i] == "ctrl" || k[i] == "shift" || k[i] == "alt" ) m++;
+				else if (m > 1 && !s) {
 					n.sort();
 					s = true;
 				}
@@ -51,4 +49,4 @@ Q.hotkey = {
 			}
 		}
 	}
-};
+}
