@@ -60,9 +60,9 @@ Q.ajax = {
 
 		h.onreadystatechange = function () {
 			if (h.readyState == 4 && h.status == 200) {
-					if (h.responseText) a = h.responseText;
-					if (t == "json") a = eval("("+a.replace(/[\r\n]/g, "")+")"); // fix IE bug (\n)
-					if (c) c(a);
+				if (h.responseText) a = h.responseText;
+				if (t == "json") a = eval("("+a.replace(/[\r\n]/g, "")+")"); // fix IE bug (\n)
+				if (c) c(a);
 			} else if (error) error(h.status);
 		}
 		h.send(d);
