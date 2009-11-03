@@ -15,46 +15,35 @@ Q.hotkey = {
 	},
 
 	bind: function(combination, callback) {
-		if (!combination) return;
+		if (!combination || !callback) return;
 		this.key = combination.toLowerCase().split("+");
 		this.callback = callback;
-		document.onkeydown = Q.hotkey.init;
-	},
-
-	init: function(e) {
-		e = e || window.event;
-		var code, character, key = Q.hotkey.key;
-		if (e.keyCode) code = e.keyCode;
-		else if (e.which) code = e.which;
-		var n = true;
-		eval("if(Q.hotkey.specKey.k"+code+") {n = false;code=Q.hotkey.specKey.k"+code+";};");
-		if (n) character = String.fromCharCode(code).toLowerCase();
-		else character = code;
-		var press = [], need = [], sorter = false, mk = 0;
-		if (e.ctrlKey)	press.push("ctrl")
-		if (e.shiftKey)	press.push("shift")
-		if (e.altKey)		press.push("alt")
-		if (press.length > 1) press.sort();
-		press.push(character);
-		for (var i = 0; i < key.length; i++) {
-			if (key[i] == "ctrl") {
-				need.push("ctrl"); mk++;
-			} else if (key[i] == "shift") {
-				need.push("shift"); mk++;
-			} else if (key[i] == "alt") {
-				need.push("alt"); mk++;
-			} else {
-				if(mk > 1 && !sorter) {
+		document.onkeydown = function(e) {
+			e = e || window.event;
+			var code, key = Q.hotkey.key;
+			if (e.keyCode) code = e.keyCode;
+			else if (e.which) code = e.which;
+			eval("if(Q.hotkey.specKey.k"+code+") {code=Q.hotkey.specKey.k"+code+";} else {code = String.fromCharCode(code).toLowerCase();}");
+			var press = [], need = [], s = false, m = 0;
+			if (e.ctrlKey) press.push("ctrl");
+			if (e.shiftKey) press.push("shift");
+			if (e.altKey) press.push("alt");
+			if (press.length > 1) press.sort();
+			press.push(code);
+			for (var i = 0; i < key.length; i++) {
+				if (key[i] == "ctrl" || key[i] == "shift" || key[i] == "alt" ) {
+					m++;
+				} else if (m > 1 && !s) {
 					need.sort();
-					sorter = true;
+					s = true;
 				}
-				need.push(key[i])
+				need.push(key[i]);
 			}
-		}
 
-		if (press.toString() == need.toString()) {
-			Q.hotkey.callback();
-			return false;
+			if (press.toString() == need.toString()) {
+				Q.hotkey.callback();
+				return false;
+			}
 		}
 	}
 };
