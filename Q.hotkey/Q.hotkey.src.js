@@ -21,8 +21,7 @@ Q.hotkey = {
 		this.key[combination] = combination.toLowerCase().split("+");
 		this.callback[combination] = callback;
 		document.onkeydown = function(e) {
-			e = e || window.event;
-			var press = [], need = [], s = false, m = 0;
+			press = [], need = [], s = false, m = 0, e = e || window.event;
 			if (e.keyCode) code = e.keyCode;
 			else if (e.which) code = e.which;
 			eval("if(Q.hotkey.specKey.k"+code+") {code = Q.hotkey.specKey.k"+code+";} else {code = String.fromCharCode(code).toLowerCase();}");
