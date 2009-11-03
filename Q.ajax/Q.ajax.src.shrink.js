@@ -39,13 +39,13 @@ Q.ajax = {
 	},
 
 	a : function (u, d, c, m, t) {
-		var h = this.g(), a;
+		h = this.g();
 		if (!h || !u) return;
 		if (h.overrideMimeType) h.overrideMimeType('text/xml');
 
-		if (!t) var t = "text";
-		if (!m) var m = "GET";
-		if (!d) var d = null;
+		if (!t) t = "text";
+		if (!m) m = "GET";
+		if (!d) d = null;
 
 		u += (u.indexOf("?")+1) ? "&" : "?";
 		u += "timestamp=" + new Date().getTime(); // fix IE bug (clear cache);
@@ -63,7 +63,7 @@ Q.ajax = {
 				if (h.responseText) a = h.responseText;
 				if (t == "json") a = eval("("+a.replace(/[\r\n]/g, "")+")"); // fix IE bug (\n)
 				if (c) c(a);
-			} else if (error) error(h.status);
+			}
 		}
 		h.send(d);
 	},
