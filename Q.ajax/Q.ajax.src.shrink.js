@@ -13,7 +13,7 @@
 if(!Q) var Q = {};
 Q.ajax = {
 	o : function() {
-		var h = null;
+		h = null;
 		if (window.XMLHttpRequest) { // Gecko, WebKit...
 			 //try {
 				 h = new XMLHttpRequest();
@@ -69,7 +69,7 @@ Q.ajax = {
 	},
 
 	p : function(o) {
-		var p = [];
+		p = [];
 		for (var g in o) {
 			if (o[g]) p.push(g+"="+o[g]);
 		}
