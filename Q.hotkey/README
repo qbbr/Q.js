@@ -1,0 +1,14 @@
+Q.hotkey - small library for JavaScript to bind keys.
+
+Using:
+Q.hotkey.bind(combination, callback)
+
+combination: string
+callback: function
+	exec when combination pressed.
+
+Example:
+
+Q.hotkey.bind("ctrl+f", function() {
+	alert("done");
+});
