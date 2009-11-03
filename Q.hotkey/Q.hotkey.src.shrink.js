@@ -9,6 +9,8 @@
  */
 if(!Q) var Q={};
 Q.hotkey = {
+	k: [],
+	c: [],
 	s: {
 		k13: "enter",
 		k122: "f11"
@@ -16,11 +18,11 @@ Q.hotkey = {
 
 	bind: function(h, c) {
 		if (!h || !c) return;
-		this.k = h.toLowerCase().split("+");
-		this.c = c;
+		this.k[h] = h.toLowerCase().split("+");
+		this.c[h] = c;
 		document.onkeydown = function(e) {
 			e = e || window.event;
-			var c, k = Q.hotkey.k;
+			var c;
 			if (e.keyCode) c = e.keyCode;
 			else if (e.which) c = e.which;
 			eval("if(Q.hotkey.s.k"+c+") {c=Q.hotkey.s.k"+c+";} else {c = String.fromCharCode(c).toLowerCase();}");
@@ -30,6 +32,9 @@ Q.hotkey = {
 			if (e.altKey) p.push("alt");
 			if (p.length > 1) p.sort();
 			p.push(c);
+			var j = p.toString().replace(/\,/g, "+");
+			if (!Q.hotkey.k[j]) return;
+			var k = Q.hotkey.k[j];
 			for (var i = 0; i < k.length; i++) {
 				if (k[i] == "ctrl" || k[i] == "shift" || k[i] == "alt" ) {
 					m++;
@@ -41,7 +46,7 @@ Q.hotkey = {
 			}
 
 			if (p.toString() == n.toString()) {
-				Q.hotkey.c();
+				Q.hotkey.c[j]();
 				return false;
 			}
 		}
