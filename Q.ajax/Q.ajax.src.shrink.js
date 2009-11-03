@@ -13,7 +13,7 @@
 if(!Q) var Q = {};
 Q.ajax = {
 	o : function() {
-		var h = false;
+		var h = null;
 		if (window.XMLHttpRequest) { // Gecko, WebKit...
 			 //try {
 				 h = new XMLHttpRequest();
@@ -39,7 +39,7 @@ Q.ajax = {
 	},
 
 	a : function (u, d, c, m, t) {
-		var h = this.g();
+		var h = this.g(), a;
 		if (!h || !u) return;
 		if (h.overrideMimeType) h.overrideMimeType('text/xml');
 
@@ -47,9 +47,8 @@ Q.ajax = {
 		if (!m) var m = "GET";
 		if (!d) var d = null;
 
-		var n = "timestamp=" + new Date().getTime(); // fix IE bug (clear cache)
 		u += (u.indexOf("?")+1) ? "&" : "?";
-		u += n;
+		u += "timestamp=" + new Date().getTime(); // fix IE bug (clear cache);
 
 		h.open(m, u, true);
 
@@ -60,16 +59,11 @@ Q.ajax = {
 		}
 
 		h.onreadystatechange = function () {
-			if (h.readyState == 4) {
-				if (h.status == 200) {
-					var a = "";
+			if (h.readyState == 4 && h.status == 200) {
 					if (h.responseText) a = h.responseText;
-					if (t == "json") {
-						a = eval("("+a.replace(/[\n\r]/g,"")+")"); // fix IE bug (\n)
-					}
+					if (t == "json") a = eval("("+a.replace(/[\r\n]/g, "")+")"); // fix IE bug (\n)
 					if (c) c(a);
-				} else if (error) error(h.status);
-			}
+			} else if (error) error(h.status);
 		}
 		h.send(d);
 	},
