@@ -26,7 +26,6 @@ Q.hotkey = {
 		var code, character, key = Q.hotkey.key;
 		if (e.keyCode) code = e.keyCode;
 		else if (e.which) code = e.which;
-		if (Q.hotkey.specKey.code) alert(1);
 		var n = true;
 		eval("if(Q.hotkey.specKey.k"+code+") {n = false;code=Q.hotkey.specKey.k"+code+";};");
 		if (n) character = String.fromCharCode(code).toLowerCase();
