@@ -9,6 +9,8 @@
  */
 if(!Q) var Q={};
 Q.hotkey = {
+	key: [],
+	callback: [],
 	specKey: {
 		k13: "enter",
 		k122: "f11"
@@ -16,11 +18,11 @@ Q.hotkey = {
 
 	bind: function(combination, callback) {
 		if (!combination || !callback) return;
-		this.key = combination.toLowerCase().split("+");
-		this.callback = callback;
+		this.key[combination] = combination.toLowerCase().split("+");
+		this.callback[combination] = callback;
 		document.onkeydown = function(e) {
 			e = e || window.event;
-			var code, key = Q.hotkey.key;
+			var code;
 			if (e.keyCode) code = e.keyCode;
 			else if (e.which) code = e.which;
 			eval("if(Q.hotkey.specKey.k"+code+") {code=Q.hotkey.specKey.k"+code+";} else {code = String.fromCharCode(code).toLowerCase();}");
@@ -30,6 +32,9 @@ Q.hotkey = {
 			if (e.altKey) press.push("alt");
 			if (press.length > 1) press.sort();
 			press.push(code);
+			var pressS = press.toString().replace(/\,/g, "+");
+			if (!Q.hotkey.key[pressS]) return;
+			var key = Q.hotkey.key[pressS];
 			for (var i = 0; i < key.length; i++) {
 				if (key[i] == "ctrl" || key[i] == "shift" || key[i] == "alt" ) {
 					m++;
@@ -41,7 +46,7 @@ Q.hotkey = {
 			}
 
 			if (press.toString() == need.toString()) {
-				Q.hotkey.callback();
+				Q.hotkey.callback[pressS]();
 				return false;
 			}
 		}
