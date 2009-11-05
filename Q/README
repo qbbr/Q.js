@@ -1,0 +1,4 @@
+Q - core library for JavaScript.
+id;
+addClass, hasClass, removeClass;
+setCookie,getCookie;
