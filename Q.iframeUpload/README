@@ -1,0 +1,28 @@
+Q.iframeUpload - small library for JavaScript to upload file on a remote server without refresh page.
+
+Using:
+(Optional) Q.iframeUpload.action = action;
+(Optional) Q.iframeUpload.parent = parent;
+Q.iframeUpload.init(callback)
+
+action(Optional): string (default = "upload.php")
+	server page location
+parent(Optional): HTMLobject (default = document.body)
+	parentNode for iframeUpload
+callback: function
+	exec when server response.
+
+Example:
+
+Q.iframeUpload.init(function(data) {
+	alert(data);
+});
+
+OR
+
+<div id="upload">{{iframeUpload inserted here}}</div>
+.....
+Q.iframeUpload.parent = document.getElementById("upload");
+Q.iframeUpload.init(function(data) {
+	alert(data);
+});
