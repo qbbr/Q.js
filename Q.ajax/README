@@ -1,4 +1,4 @@
-Q.ajax - small library (~1.1kb) for JavaScript to load remote page.
+Q.ajax - small library (~1kb) for JavaScript to load remote page.
 
 Using an HTTP POST request:
 Q.ajax.post(url, data, callback, type)
