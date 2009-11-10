@@ -35,11 +35,14 @@ Q.ajax = {
 	},
 
 	post : function(u, d, c, t) {
-		this.a(u, this.p(d), c, 'POST', t);
+		p = [];
+		for (var g in d) p.push(g + "=" + d[g]);
+		//.replace(/%20/g, "+");
+		this.a(u, p.join("&"), c, 'POST', t);
 	},
 
 	a : function (u, d, c, m, t) {
-		h = this.g();
+		h = this.o();
 		if (!h || !u) return;
 		if (h.overrideMimeType) h.overrideMimeType('text/xml');
 
@@ -47,8 +50,7 @@ Q.ajax = {
 		if (!m) m = "GET";
 		if (!d) d = null;
 
-		u += (u.indexOf("?")+1) ? "&" : "?";
-		u += "timestamp=" + new Date().getTime(); // fix IE bug (clear cache);
+		u += ((u.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp = fix IE bug (disable cache)
 
 		h.open(m, u, true);
 
@@ -60,22 +62,13 @@ Q.ajax = {
 
 		h.onreadystatechange = function () {
 			if (h.readyState == 4 && h.status == 200) {
-				a = "";
-				if (h.responseText) a = h.responseText;
-				if (t == "json") a = eval("("+a.replace(/[\r\n]/g, "")+")"); // fix IE bug (\n)
+				a = (h.responseText) ? h.responseText : "";
+				if (t == "json") a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
 				if (c) c(a);
 			}
 		}
 		h.send(d);
 	},
 
-	p : function(o) {
-		p = [];
-		for (var g in o) {
-			if (o[g]) p.push(g+"="+o[g]);
-		}
-		return p.join("&"); //.replace(/%20/g, "+");
-	},
-
-	g : function() {return this.o();} // fix IE bug (clear cache)
+	g : function() {return this.o();} // fix IE bug (disable cache)
 }
