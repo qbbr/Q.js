@@ -41,14 +41,14 @@ Q.ajax = {
 		this.ajax(url, p.join("&"), callback, 'POST', type);
 	},
 
-	ajax : function (url, data, callback, method, type) {
+	ajax : function(url, data, callback, method, type) {
 		h = this.getHTTPobj();
 		if (!h || !url) return;
 		if (h.overrideMimeType) h.overrideMimeType('text/xml');
 
-		if (!type) type = "text";
-		if (!method) method = "GET";
-		if (!data) data = null;
+		type = type || "text"; // if (!type) type = "text";
+		method = method || "GET"; // if (!method) method = "GET";
+		data = data || null; // if (!data) data = null;
 
 		url += ((url.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp = fix IE bug (disable cache)
 
@@ -60,7 +60,7 @@ Q.ajax = {
 			h.setRequestHeader("Connection", "close");
 		}
 
-		h.onreadystatechange = function () {
+		h.onreadystatechange = function() {
 			if (h.readyState == 4 && h.status == 200) {
 				a = (h.responseText) ? h.responseText : "";
 				if (type == "json") a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
