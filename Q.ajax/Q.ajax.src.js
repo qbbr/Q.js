@@ -35,7 +35,10 @@ Q.ajax = {
 	},
 
 	post : function(url, data, callback, type) {
-		this.ajax(url, this.parseObj(data), callback, 'POST', type);
+		p = [];
+		for (var g in data) p.push(g + "=" + data[g]);
+		//.replace(/%20/g, "+");
+		this.ajax(url, p.join("&"), callback, 'POST', type);
 	},
 
 	ajax : function (url, data, callback, method, type) {
@@ -47,8 +50,7 @@ Q.ajax = {
 		if (!method) method = "GET";
 		if (!data) data = null;
 
-		url += (url.indexOf("?")+1) ? "&" : "?";
-		url += "timestamp=" + new Date().getTime(); // fix IE bug (clear cache)
+		url += ((url.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp = fix IE bug (disable cache)
 
 		h.open(method, url, true);
 
@@ -60,22 +62,13 @@ Q.ajax = {
 
 		h.onreadystatechange = function () {
 			if (h.readyState == 4 && h.status == 200) {
-				a = "";
-				if (h.responseText) a = h.responseText;
-				if (type == "json") a = eval("("+a.replace(/[\r\n]/g, "")+")"); // fix IE bug (\n)
+				a = (h.responseText) ? h.responseText : "";
+				if (type == "json") a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
 				if (callback) callback(a);
 			}
 		}
 		h.send(data);
 	},
 
-	parseObj : function(o) {
-		p = [];
-		for (var g in o) {
-			if (o[g]) p.push(g+"="+o[g]);
-		}
-		return p.join("&"); //.replace(/%20/g, "+");
-	},
-
-	getHTTPobj : function() {return this.HTTPobj();} // fix IE bug (clear cache)
+	getHTTPobj : function() {return this.HTTPobj();} // fix IE bug (disable cache)
 }
