@@ -44,7 +44,7 @@ Q.ajax = {
 	a : function(u, d, c, m, t) {
 		h = this.o();
 		if (!h || !u) return;
-		if (h.overrideMimeType) h.overrideMimeType('text/xml');
+		if (h.overrideMimeType) h.overrideMimeType('text/plain');
 
 		t = t || "text"; // if (!t) t = "text";
 		m = m || "GET"; // if (!m) m = "GET";
