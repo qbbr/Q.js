@@ -44,7 +44,7 @@ Q.ajax = {
 	ajax : function(url, data, callback, method, type) {
 		h = this.getHTTPobj();
 		if (!h || !url) return;
-		if (h.overrideMimeType) h.overrideMimeType('text/xml');
+		if (h.overrideMimeType) h.overrideMimeType('text/plain');
 
 		type = type || "text"; // if (!type) type = "text";
 		method = method || "GET"; // if (!method) method = "GET";
