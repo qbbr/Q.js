@@ -1,0 +1,12 @@
+Q.opacity - small library for JavaScript to set opacity.
+
+Using:
+Q.opacity.set(elm, opacity)
+
+elm: Object (element)
+opacity: Float
+
+Example:
+
+var elm = document.getElementById("div");
+Q.opacity.set(elm, 0.5);
