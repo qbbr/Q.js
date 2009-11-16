@@ -45,7 +45,7 @@ Q.ajax = {
 
 		t = t || "text"; // if (!type) type = "text";
 		m = m || "GET"; // if (!method) method = "GET";
-		// d = d || null; // if (!data) data = null;
+		// data = data || null; // if (!data) data = null;
 
 		u += ((u.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp = fix IE bug (disable cache)
 
@@ -59,7 +59,7 @@ Q.ajax = {
 
 		h.onreadystatechange = function() {
 			if (h.readyState == 4 && h.status == 200) {
-				a = (h.responseText) ? h.responseText : "";
+				a = h.responseText;
 				if (t == "json") a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
 				if (c) c(a);
 			}
