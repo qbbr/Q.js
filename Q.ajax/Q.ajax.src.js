@@ -14,11 +14,8 @@ if(!Q) var Q = {};
 Q.ajax = {
 	HTTPobj : function() {
 		h = null;
-		if (window.XMLHttpRequest) { // Gecko, WebKit...
-			 //try {
-				 h = new XMLHttpRequest();
-			 //} catch (e) {}
-		} else if (window.ActiveXObject) { // Trident (MSHTML)
+		if (window.XMLHttpRequest) h = new XMLHttpRequest(); // Gecko, WebKit...
+		else if (window.ActiveXObject) { // Trident (MSHTML)
 			 try {
 					h = new ActiveXObject("Msxml2.XMLHTTP");
 			 } catch (e) {
@@ -48,7 +45,7 @@ Q.ajax = {
 
 		type = type || "text"; // if (!type) type = "text";
 		method = method || "GET"; // if (!method) method = "GET";
-		data = data || null; // if (!data) data = null;
+		// data = data || null; // if (!data) data = null;
 
 		url += ((url.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp = fix IE bug (disable cache)
 
