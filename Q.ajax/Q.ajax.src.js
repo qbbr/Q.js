@@ -10,7 +10,7 @@
  * @example Q.ajax.post(url, data, callback, type)
  * @desc Using an HTTP POST request
  */
-if(!Q) Q = {};
+if(!Q) var Q = {};
 Q.ajax = {
 	HTTPobj: function() {
 		h = null;
