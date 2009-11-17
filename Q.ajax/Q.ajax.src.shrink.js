@@ -44,7 +44,7 @@ Q.ajax = {
 		if (h.overrideMimeType) h.overrideMimeType('text/plain');
 
 		// t = t || "text"; // if (!type) type = "text";
-		m = m || "GET"; // if (!method) method = "GET";
+		// m = m || "GET"; // if (!method) method = "GET";
 		// data = data || null; // if (!data) data = null;
 
 		u += ((u.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp = fix IE bug (disable cache)
