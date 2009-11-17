@@ -10,9 +10,9 @@
  * @example Q.ajax.post(url, data, callback, type)
  * @desc Using an HTTP POST request
  */
-if(!Q) var Q = {};
+if(!Q) Q = {};
 Q.ajax = {
-	HTTPobj : function() {
+	HTTPobj: function() {
 		h = null;
 		if (window.XMLHttpRequest) h = new XMLHttpRequest(); // Gecko, WebKit...
 		else if (window.ActiveXObject) { // Trident (MSHTML)
@@ -27,18 +27,18 @@ Q.ajax = {
 		return h;
 	},
 
-	get : function(url, callback, type) {
+	get: function(url, callback, type) {
 		this.ajax(url, null, callback, 'GET', type);
 	},
 
-	post : function(url, data, callback, type) {
+	post: function(url, data, callback, type) {
 		p = [];
 		for (var g in data) p.push(g + "=" + data[g]);
 		//.replace(/%20/g, "+");
 		this.ajax(url, p.join("&"), callback, 'POST', type);
 	},
 
-	ajax : function(url, data, callback, method, type) {
+	ajax: function(url, data, callback, method, type) {
 		h = this.getHTTPobj();
 		if (!h || !url) return;
 		if (h.overrideMimeType) h.overrideMimeType('text/plain');
@@ -67,5 +67,5 @@ Q.ajax = {
 		h.send(data);
 	},
 
-	getHTTPobj : function() {return this.HTTPobj();} // fix IE bug (disable cache)
+	getHTTPobj: function() {return this.HTTPobj();} // fix IE bug (disable cache)
 }
