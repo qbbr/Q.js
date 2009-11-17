@@ -15,7 +15,7 @@ Q.ajax = {
 	HTTPobj: function() {
 		h = null;
 		if (window.XMLHttpRequest) h = new XMLHttpRequest(); // Gecko, WebKit...
-		else if (window.ActiveXObject) { // Trident (MSHTML)
+		else if (window.ActiveXObject) { // IE (Trident [MSHTML])
 			try {
 				h = new ActiveXObject("Msxml2.XMLHTTP");
 			} catch (e) {
@@ -33,21 +33,20 @@ Q.ajax = {
 
 	post: function(url, data, callback, type) {
 		p = [];
-		for (var g in data) p.push(g + "=" + data[g]);
-		//.replace(/%20/g, "+");
+		for (var g in data) p.push(g + "=" + data[g]); // .replace(/%20/g, "+") - replace space on plus
 		this.ajax(url, p.join("&"), callback, 'POST', type);
 	},
 
 	ajax: function(url, data, callback, method, type) {
-		h = this.getHTTPobj();
+		h = this.getHTTPobj(); // called every time (disable cache)
 		if (!h || !url) return;
-		if (h.overrideMimeType) h.overrideMimeType('text/plain');
+		if (h.overrideMimeType) h.overrideMimeType('text/plain'); // or text/xml
 
 		// type = type || "text"; // if (!type) type = "text";
 		// method = method || "GET"; // if (!method) method = "GET";
 		// data = data || null; // if (!data) data = null;
 
-		url += ((url.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp = fix IE bug (disable cache)
+		url += ((url.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
 
 		h.open(method, url, true);
 
@@ -67,5 +66,5 @@ Q.ajax = {
 		h.send(data);
 	},
 
-	getHTTPobj: function() {return this.HTTPobj();} // fix IE bug (disable cache)
+	getHTTPobj: function() {return this.HTTPobj();}
 }
