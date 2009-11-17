@@ -15,7 +15,7 @@ Q.ajax = {
 	o: function() {
 		h = null;
 		if (window.XMLHttpRequest) h = new XMLHttpRequest(); // Gecko, WebKit...
-		else if (window.ActiveXObject) { // Trident (MSHTML)
+		else if (window.ActiveXObject) { // IE (Trident [MSHTML])
 			try {
 				h = new ActiveXObject("Msxml2.XMLHTTP");
 			} catch (e) {
@@ -33,21 +33,20 @@ Q.ajax = {
 
 	post: function(u, d, c, t) {
 		p = [];
-		for (var g in d) p.push(g + "=" + d[g]);
-		//.replace(/%20/g, "+");
+		for (var g in d) p.push(g + "=" + d[g]); // .replace(/%20/g, "+") - replace space on plus
 		this.a(u, p.join("&"), c, 'POST', t);
 	},
 
 	a: function(u, d, c, m, t) {
-		h = this.g();
+		h = this.g(); // called every time (disable cache)
 		if (!h || !u) return;
-		if (h.overrideMimeType) h.overrideMimeType('text/plain');
+		if (h.overrideMimeType) h.overrideMimeType('text/plain'); // or text/xml
 
-		// t = t || "text"; // if (!type) type = "text";
-		// m = m || "GET"; // if (!method) method = "GET";
+		// type = type || "text"; // if (!type) type = "text";
+		// method = method || "GET"; // if (!method) method = "GET";
 		// data = data || null; // if (!data) data = null;
 
-		u += ((u.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp = fix IE bug (disable cache)
+		u += ((u.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
 
 		h.open(m, u, true);
 
@@ -67,5 +66,5 @@ Q.ajax = {
 		h.send(d);
 	},
 
-	g: function() {return this.o();} // fix IE bug (disable cache)
+	g: function() {return this.o();}
 }
