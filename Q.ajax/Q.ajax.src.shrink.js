@@ -43,7 +43,7 @@ Q.ajax = {
 		if (!h || !u) return;
 		if (h.overrideMimeType) h.overrideMimeType('text/plain');
 
-		t = t || "text"; // if (!type) type = "text";
+		// t = t || "text"; // if (!type) type = "text";
 		m = m || "GET"; // if (!method) method = "GET";
 		// data = data || null; // if (!data) data = null;
 
