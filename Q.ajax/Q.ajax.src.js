@@ -16,13 +16,13 @@ Q.ajax = {
 		h = null;
 		if (window.XMLHttpRequest) h = new XMLHttpRequest(); // Gecko, WebKit...
 		else if (window.ActiveXObject) { // Trident (MSHTML)
-			 try {
-					h = new ActiveXObject("Msxml2.XMLHTTP");
-			 } catch (e) {
-					try {
-						 h = new ActiveXObject("Microsoft.XMLHTTP");
-					} catch (e) {}
-			 }
+			try {
+				h = new ActiveXObject("Msxml2.XMLHTTP");
+			} catch (e) {
+				try {
+					h = new ActiveXObject("Microsoft.XMLHTTP");
+				} catch (e) {}
+			}
 		}
 		return h;
 	},
