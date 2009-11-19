@@ -28,42 +28,43 @@ Q.ajax = {
 	},
 
 	get: function(u, c, t) {
-		this.a(u, null, c, 'GET', t);
+		this.a(u, null, c, "GET", t);
 	},
 
 	post: function(u, d, c, t) {
 		p = [];
 		for (var g in d) p.push(g + "=" + d[g]); // .replace(/%20/g, "+") - replace space on plus
-		this.a(u, p.join("&"), c, 'POST', t);
+		this.a(u, p.join("&"), c, "POST", t);
 	},
 
 	a: function(u, d, c, m, t) {
 		h = this.g(); // called every time (disable cache)
-		if (!h || !u) return;
-		if (h.overrideMimeType) h.overrideMimeType('text/plain'); // or text/xml
+		if (h && u) {
+			if (h.overrideMimeType) h.overrideMimeType("text/plain"); // or text/xml
 
-		// type = type || "text"; // if (!type) type = "text";
-		// method = method || "GET"; // if (!method) method = "GET";
-		// data = data || null; // if (!data) data = null;
+			// t = t || "text"; // if (!t) t = "text";
+			// m = m || "GET"; // if (!m) m = "GET";
+			// d = d || null; // if (!d) d = null;
 
-		u += ((u.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
+			u += ((u.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
 
-		h.open(m, u, true);
+			h.open(m, u, true);
 
-		if (m == "POST") {
-			h.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			h.setRequestHeader("Content-length", d.length);
-			h.setRequestHeader("Connection", "close");
-		}
-
-		h.onreadystatechange = function() {
-			if (h.readyState == 4 && h.status == 200) {
-				a = h.responseText;
-				if (t == "json") a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
-				if (c) c(a);
+			if (m == "POST") {
+				h.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				h.setRequestHeader("Content-length", d.length);
+				h.setRequestHeader("Connection", "close");
 			}
+
+			h.onreadystatechange = function() {
+				if (h.readyState == 4 && h.status == 200) {
+					a = h.responseText;
+					if (t == "json") a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
+					if (c) c(a);
+				}
+			}
+			h.send(d);
 		}
-		h.send(d);
 	},
 
 	g: function() {return this.o();}
