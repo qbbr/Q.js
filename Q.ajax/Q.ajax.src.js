@@ -28,42 +28,43 @@ Q.ajax = {
 	},
 
 	get: function(url, callback, type) {
-		this.ajax(url, null, callback, 'GET', type);
+		this.ajax(url, null, callback, "GET", type);
 	},
 
 	post: function(url, data, callback, type) {
 		p = [];
 		for (var g in data) p.push(g + "=" + data[g]); // .replace(/%20/g, "+") - replace space on plus
-		this.ajax(url, p.join("&"), callback, 'POST', type);
+		this.ajax(url, p.join("&"), callback, "POST", type);
 	},
 
 	ajax: function(url, data, callback, method, type) {
 		h = this.getHTTPobj(); // called every time (disable cache)
-		if (!h || !url) return;
-		if (h.overrideMimeType) h.overrideMimeType('text/plain'); // or text/xml
+		if (h && url) {
+			if (h.overrideMimeType) h.overrideMimeType("text/plain"); // or text/xml
 
-		// type = type || "text"; // if (!type) type = "text";
-		// method = method || "GET"; // if (!method) method = "GET";
-		// data = data || null; // if (!data) data = null;
+			// type = type || "text"; // if (!type) type = "text";
+			// method = method || "GET"; // if (!method) method = "GET";
+			// data = data || null; // if (!data) data = null;
 
-		url += ((url.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
+			url += ((url.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
 
-		h.open(method, url, true);
+			h.open(method, url, true);
 
-		if (method == "POST") {
-			h.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			h.setRequestHeader("Content-length", data.length);
-			h.setRequestHeader("Connection", "close");
-		}
-
-		h.onreadystatechange = function() {
-			if (h.readyState == 4 && h.status == 200) {
-				a = h.responseText;
-				if (type == "json") a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
-				if (callback) callback(a);
+			if (method == "POST") {
+				h.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				h.setRequestHeader("Content-length", data.length);
+				h.setRequestHeader("Connection", "close");
 			}
+
+			h.onreadystatechange = function() {
+				if (h.readyState == 4 && h.status == 200) {
+					a = h.responseText;
+					if (type == "json") a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
+					if (callback) callback(a);
+				}
+			}
+			h.send(data);
 		}
-		h.send(data);
 	},
 
 	getHTTPobj: function() {return this.HTTPobj();}
