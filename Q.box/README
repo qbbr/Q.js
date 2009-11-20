@@ -1,0 +1,10 @@
+Q.box - small popup box for JavaScript.
+
+Using:
+Q.box.show(text)
+
+text: string
+
+Example:
+
+Q.box.show("msg msg msg msg...");
