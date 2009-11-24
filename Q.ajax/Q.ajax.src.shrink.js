@@ -42,10 +42,6 @@ Q.ajax = {
 		if (h && u) {
 			if (h.overrideMimeType) h.overrideMimeType("text/plain"); // or text/xml
 
-			// t = t || "text"; // if (!t) t = "text";
-			// m = m || "GET"; // if (!m) m = "GET";
-			// d = d || null; // if (!d) d = null;
-
 			u += ((u.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
 
 			h.open(m, u, true);
