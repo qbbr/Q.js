@@ -1,0 +1,15 @@
+Q.notification - small library for JavaScript to show popups notification
+
+Using:
+Q.notification.show(text)
+
+text: string (support html tags)
+	message on popup
+
+Example:
+
+<a onclick="Q.notification.show("ch0nada xD");">its popup...chVe</a>
+
+OR
+
+<a onclick="Q.notification.show("ch0nada xD<br /><b>new line</b>");">its popup...with html tags</a>
