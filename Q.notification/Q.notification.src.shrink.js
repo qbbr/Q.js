@@ -21,7 +21,9 @@ Q.notification = {
 		b.style.borderRadius = "5px";
 		b.style.MozBorderRadius = "5px";
 		b.style.cursor = "help";
-		Q.opacity.set(b, 0.7);
+		try {
+			Q.opacity.set(b, 0.7);
+		} catch (e) {}
 		b.innerHTML = t;
 		b.onclick = function() {
 			Q.notification.c();
