@@ -11,10 +11,13 @@ if (!Q) var Q = {};
 Q.box = {
 	width: 300,
 	height: 100,
+	font: "14px Arial, Sans-serif",
 	borderColor: "#555",
 	borderWidth: 12,
+	opacity: 0.5,
 	padding: 5,
 	backgroundColor: "white",
+	color: "#333",
 	btnClose: true,
 
 	show: function(t) {
@@ -25,14 +28,12 @@ Q.box = {
 
 		var m = document.createElement("div");
 		this.m = m;
-		m.style.position = "absolute";
 		m.style.left = left + "px";
 		m.style.top = top + "px";
 		m.style.width = this.width + "px";
-		m.style.zIndex = 13;
-		m.style.fontFamily = "Arial, Sans-serif";
-		m.style.fontSize = "14px";
-		m.style.color = "#555";
+		m.style.zIndex = 93;
+		m.style.font = this.font;
+		m.style.color = this.color;
 		m.innerHTML = t;
 
 		if (this.btnClose) {
@@ -43,8 +44,6 @@ Q.box = {
 			var a = document.createElement("a");
 			a.style.color = "black";
 			a.style.fontWeight = "bold";
-			a.style.fontFamily = "Arial, Sans-serif";
-			a.style.fontSize = "14px";
 			a.style.cursor = "pointer";
 			a.onclick = function() {
 				Q.box.c();
@@ -65,54 +64,46 @@ Q.box = {
 
 		var e = document.createElement("div");
 		this.e = e;
-		e.style.position = "absolute";
 		e.style.left = left - this.padding + "px";
 		e.style.top = top - this.padding + "px";
 		e.style.width = this.width + 2*this.padding + "px";
 		e.style.backgroundColor = this.backgroundColor;
-		e.style.zIndex = 12;
+		e.style.zIndex = 92;
 		document.body.appendChild(e);
 
 		var b = document.createElement("div");
 		this.b = b;
-		b.style.position = "absolute";
 		b.style.left = left - this.borderWidth - this.padding + "px";
 		b.style.top = top - this.borderWidth - this.padding + "px";
 		b.style.width = this.width + 2*this.padding + 2*this.borderWidth + "px";
 		b.style.backgroundColor = this.borderColor;
 		b.style.borderRadius = "10px";
 		b.style.MozBorderRadius = "10px";
-		b.style.zIndex = 11;
-		this.o(b, 0.8);
+		b.style.zIndex = 91;
+		try {
+			Q.opacity.set(b, this.opacity);
+		} catch (e) {}
+
 		document.body.appendChild(b);
 
-		this.autoHeight();
+		m.style.position = e.style.position = b.style.position = "absolute";
+
+		this.a();
 
 		setTimeout(function() {
 			Q.box.i();
 		}, 100);
 	},
 
-	autoHeight: function() {
+	a: function() {
 		var h = this.m.offsetHeight;
 		this.e.style.height = h + 2*this.padding + "px";
 		this.b.style.height = h + 2*this.padding + 2*this.borderWidth + "px";
 	},
 
-	o: function(e, o) {
-		if (typeof document.body.style.opacity == 'string') { // CSS2 (Gecko, WebKit...)
-			e.style.opacity = o;
-		} else if (document.body.filters) { // Trident (MSHTML) 5.5+
-			o *= 100;
-			var alpha = e.filters["DXImageTransform.Microsoft.alpha"] || e.filters.alpha;
-			if (alpha) alpha.opacity = o;
-			else e.style.filter += "progid:DXImageTransform.Microsoft.Alpha(opacity=" + o + ")";
-		}
-	},
-
 	c: function() {
-		document.body.removeChild(this.e);
 		document.body.removeChild(this.b);
+		document.body.removeChild(this.e);
 		document.body.removeChild(this.m);
 		this.u();
 		this.b = this.e = this.m = null;
