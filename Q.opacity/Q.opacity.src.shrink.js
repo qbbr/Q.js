@@ -10,7 +10,7 @@
 if(!Q) var Q = {};
 Q.opacity = {
 	set: function(e, o) {
-		if (!e || !o) return;
+		if (!e) return;
 		if (typeof document.body.style.opacity == 'string') { // CSS2 (Gecko, WebKit...)
 			e.style.opacity = o;
 		} else if (document.body.filters) { // Trident (MSHTML) 5.5+
