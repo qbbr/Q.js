@@ -13,7 +13,8 @@ Q.hotkey = {
 	callback: [],
 	specKey: {
 		k13: "enter",
-		k122: "f11"
+		k122: "f11",
+		k27: "esc"
 	},
 
 	bind: function(combination, callback) {
@@ -46,6 +47,15 @@ Q.hotkey = {
 				Q.hotkey.callback[pressS]();
 				return false;
 			}
+		}
+	},
+
+	unbind: function(combination) {
+		if (this.key[combination]) {
+			this.key[combination] = null
+		}
+		if (this.callback[combination]) {
+			this.callback[combination] = null;
 		}
 	}
 }
