@@ -105,7 +105,7 @@ Q.box = {
 		document.body.removeChild(this.box);
 		document.body.removeChild(this.blank);
 		document.body.removeChild(this.main);
-		this.u();
+		this.unBindClose();
 		this.box = this.blank = this.main = null;
 	},
 
