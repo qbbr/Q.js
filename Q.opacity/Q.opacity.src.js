@@ -11,7 +11,7 @@ if(!Q) var Q = {};
 Q.opacity = {
 	set: function(elm, opacity) {
 		if (!elm) return;
-		if (typeof document.body.style.opacity == 'string') { // CSS2 (Gecko, WebKit...)
+		if (typeof document.body.style.opacity == "string") { // CSS2 (Gecko, WebKit...)
 			elm.style.opacity = opacity;
 		} else if (document.body.filters) { // Trident (MSHTML) 5.5+
 			opacity *= 100;
