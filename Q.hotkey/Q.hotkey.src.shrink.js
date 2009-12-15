@@ -13,7 +13,8 @@ Q.hotkey = {
 	c: [],
 	s: {
 		k13: "enter",
-		k122: "f11"
+		k122: "f11",
+		k27: "esc"
 	},
 
 	bind: function(h, c) {
@@ -46,6 +47,15 @@ Q.hotkey = {
 				Q.hotkey.c[j]();
 				return false;
 			}
+		}
+	},
+
+	unbind: function(c) {
+		if (this.k[c]) {
+			this.k[c] = null
+		}
+		if (this.c[c]) {
+			this.c[c] = null;
 		}
 	}
 }
