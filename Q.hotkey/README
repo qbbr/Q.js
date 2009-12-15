@@ -2,6 +2,7 @@ Q.hotkey - small library for JavaScript to bind keys.
 
 Using:
 Q.hotkey.bind(combination, callback)
+Q.hotkey.unbind(combination)
 
 combination: string
 callback: function
@@ -12,3 +13,5 @@ Example:
 Q.hotkey.bind("ctrl+f", function() {
 	alert("done");
 });
+
+Q.hotkey.unbind("ctrl+f");
