@@ -2,9 +2,13 @@ Q.box - small popup box for JavaScript.
 
 Using:
 Q.box.show(text)
+Q.box.iframe(src)
 
 text: string
+src: URL to page
 
 Example:
 
 Q.box.show("msg msg msg msg...");
+
+Q.box.iframe(src);
