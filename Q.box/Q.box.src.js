@@ -20,11 +20,15 @@ Q.box = {
 	color: "#333",
 	btnClose: true,
 
+	iframe: function(src) {
+		this.show('<iframe class="iframe" src="' + src + '" frameborder="0" marginheight="0" marginwidth="0"></iframe>');
+	},
+
 	show: function(text) {
 		if (this.box) this.close();
 		if (!text) text = "";
 		var left = (document.body.clientWidth - this.width) / 2;
-		var top = (document.body.clientHeight - this.height) / 2 - 100;
+		var top = (document.body.clientHeight - this.height) / 2;
 
 		var main = document.createElement("div");
 		this.main = main;
