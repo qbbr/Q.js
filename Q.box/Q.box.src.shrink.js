@@ -20,16 +20,21 @@ Q.box = {
 	color: "#333",
 	btnClose: true,
 
+	iframe: function(s) {
+		this.show('<iframe class="iframe" src="' + s + '" frameborder="0" marginheight="0" marginwidth="0"></iframe>');
+	},
+
+
 	show: function(t) {
 		if (this.b) this.c();
 		if (!t) t = "";
-		var left = (document.body.clientWidth - this.width) / 2;
-		var top = (document.body.clientHeight - this.height) / 2 - 100;
+		var l = (document.body.clientWidth - this.width) / 2;
+		var u = (document.body.clientHeight - this.height) / 2;
 
 		var m = document.createElement("div");
 		this.m = m;
-		m.style.left = left + "px";
-		m.style.top = top + "px";
+		m.style.left = l + "px";
+		m.style.top = u + "px";
 		m.style.width = this.width + "px";
 		m.style.zIndex = 93;
 		m.style.font = this.font;
@@ -64,8 +69,8 @@ Q.box = {
 
 		var e = document.createElement("div");
 		this.e = e;
-		e.style.left = left - this.padding + "px";
-		e.style.top = top - this.padding + "px";
+		e.style.left = l - this.padding + "px";
+		e.style.top = u - this.padding + "px";
 		e.style.width = this.width + 2*this.padding + "px";
 		e.style.backgroundColor = this.backgroundColor;
 		e.style.zIndex = 92;
@@ -73,8 +78,8 @@ Q.box = {
 
 		var b = document.createElement("div");
 		this.b = b;
-		b.style.left = left - this.borderWidth - this.padding + "px";
-		b.style.top = top - this.borderWidth - this.padding + "px";
+		b.style.left = l - this.borderWidth - this.padding + "px";
+		b.style.top = u - this.borderWidth - this.padding + "px";
 		b.style.width = this.width + 2*this.padding + 2*this.borderWidth + "px";
 		b.style.backgroundColor = this.borderColor;
 		b.style.borderRadius = "10px";
