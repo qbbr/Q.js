@@ -11,6 +11,9 @@ if(!Q) var Q = {};
 Q.opacity = {
 	set: function(elm, opacity) {
 		if (!elm) return;
+		elm.style.opacity = opacity;
+		elm.style.filter = 'alpha(opacity=' + opacity*100 + ')';
+		/*
 		if (typeof document.body.style.opacity == "string") { // CSS2 (Gecko, WebKit...)
 			elm.style.opacity = opacity;
 		} else if (document.body.filters) { // Trident (MSHTML) 5.5+
@@ -19,5 +22,6 @@ Q.opacity = {
 			if (alpha) alpha.opacity = opacity;
 			else elm.style.filter += "progid:DXImageTransform.Microsoft.Alpha(opacity=" + opacity + ")";
 		}
+		*/
 	}
 }
