@@ -55,7 +55,7 @@ Q.ajax = {
 			h.onreadystatechange = function() {
 				if (h.readyState == 4 && h.status == 200) {
 					a = h.responseText;
-					if (type == "json") a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
+					if (type == "json" && a) a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
 					if (callback) callback(a);
 				}
 			}
