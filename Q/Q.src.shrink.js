@@ -15,49 +15,89 @@ Q = {
 	},
 
 	addClass: function(e, c) {
-		if (!this.hasClass(e,c)) e.className += " "+c;
+		if (!this.hasClass(e,c)) e.className += " " + c;
 	},
 
 	hasClass: function(e, c) {
-		return e.className.match(new RegExp('(\\s|^)'+c+'(\\s|$)'));
+		return e.className.match(new RegExp('(\\s|^)' + c + '(\\s|$)'));
 	},
 
 	removeClass: function(e, c) {
 		//if (this.hasClass(e,cls)) {
-			var reg = new RegExp('(\\s|^)'+c+'(\\s|$)');
-			e.className=e.className.replace(reg,' ');
+			var r = new RegExp('(\\s|^)' + c + '(\\s|$)');
+			e.className = e.className.replace(r,' ');
 		//}
 	},
 
-	setCookie: function(n,v,d) {
-		var e = '';
+	setCookie: function(n, v, d) {
+		var x = "";
 		if (d) {
-			var t = new Date();
-			t.setTime(t.getTime()+(d*24*60*60*1000));
-			e = "; expires="+t.toGMTString();
-		} else e = "";
-		document.cookie = n+"="+v+e+"; path=/";
+			var date = new Date();
+			date.setTime(date.getTime() + (d * 24 * 60 * 60 * 1000));
+			x = "; expires=" + date.toGMTString();
+		}
+		document.cookie = n + "=" + v + x + "; path=/";
 	},
 
 	getCookie: function(n) {
 		var q = n + "=";
 		var a = document.cookie.split(';');
-		for (var i=0;i < a.length;i++) {
+		for (i = 0; i < a.length; i++) {
 			var c = a[i];
-			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			while (c.charAt(0) == ' ') c = c.substring(1,c.length);
 			if (c.indexOf(q) == 0) return c.substring(q.length,c.length);
 		}
 		return null;
 	},
 
+	getElmPosition: function(o) {
+		var l = 0, t = 0;
+		do {
+			l += o.offsetLeft;
+			t += o.offsetTop;
+		} while (o = o.offsetParent);
+		return [l, t];
+	},
+
 	parentNodeByTagName: function(e, t) {
 		while(e.parentNode) {
-			e=e.parentNode;
+			e = e.parentNode;
 			if (e.parentNode.nodeName.toLowerCase() == t.toLowerCase()) {
 				return e.parentNode;
 				break;
 			}
 		}
 		return null;
+	},
+
+	opacity: function(e, o) {
+		if (!e) return;
+		e.style.opacity = o;
+		e.style.filter = 'alpha(opacity=' + o * 100 + ')';
+	},
+
+	browser: function() {
+		var u = navigator.userAgent, i = 0, g = /Gecko\//.test(u) ? u.match(/; rv:1\.(\d+?)\.(\d)/) : 0;
+
+		if (document.all) {
+			if (window.XDomainRequest) {
+				i = 8;
+			} else if (window.XMLHttpRequest) {
+				i = 7;
+			} else if (document.compatMode) {
+				i = 6;
+			} else if (window.attachEvent) {
+				i = 5;
+			} else {
+				i = 4;
+			}
+		}
+
+		return {
+			ie: i,
+			gecko: g ? '1.' + g.slice(1).join('.') : 0,
+			opera: window.opera && opera.version ? opera.version()[0] : 0,
+			webkit: /AppleWebKit/.test(u) ? u.match(/AppleWebKit\/(\d+?\.\d+?\s)/)[1] : 0
+		};
 	}
 };
