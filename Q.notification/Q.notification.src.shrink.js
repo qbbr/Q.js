@@ -13,7 +13,7 @@ Q.notification = {
 	show: function(t) {
 		this.c();
 		b = document.createElement("div");
-		b.style.position = "fixed";
+		b.style.position = Q.browser().ie ? "absolute" : "fixed";
 		b.style.top = "10px";
 		b.style.right = "10px";
 		b.style.backgroundColor = this.backgroundColor;
