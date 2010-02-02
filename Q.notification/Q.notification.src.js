@@ -8,6 +8,7 @@ Q.notification = {
 	sec: 4,
 	backgroundColor: "#333",
 	color: "white",
+	opacity: 0.7,
 
 	show: function(text) {
 		this.close();
@@ -21,9 +22,7 @@ Q.notification = {
 		box.style.borderRadius = "5px";
 		box.style.MozBorderRadius = "5px";
 		box.style.cursor = "help";
-		try {
-			Q.opacity.set(box, 0.7);
-		} catch (e) {}
+		Q.opacity(box, 0.7);
 		box.innerHTML = text;
 		box.onclick = function() {
 			Q.notification.close();
