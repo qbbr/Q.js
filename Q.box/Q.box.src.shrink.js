@@ -26,7 +26,7 @@ Q.box = {
 
 
 	show: function(t) {
-		if (this.b) this.c();
+		if (this.b) this.close();
 		if (!t) t = "";
 		var l = (document.body.clientWidth - this.width) / 2;
 		var u = (document.body.clientHeight - this.height) / 2;
@@ -51,7 +51,7 @@ Q.box = {
 			a.style.fontWeight = "bold";
 			a.style.cursor = "pointer";
 			a.onclick = function() {
-				Q.box.c();
+				Q.box.close();
 			}
 			a.innerHTML = "закрыть";
 			c.appendChild(a);
@@ -85,9 +85,7 @@ Q.box = {
 		b.style.borderRadius = "10px";
 		b.style.MozBorderRadius = "10px";
 		b.style.zIndex = 91;
-		try {
-			Q.opacity.set(b, this.opacity);
-		} catch (e) {}
+		Q.opacity(b, this.opacity);
 
 		document.body.appendChild(b);
 
@@ -106,7 +104,7 @@ Q.box = {
 		this.b.style.height = h + 2*this.padding + 2*this.borderWidth + "px";
 	},
 
-	c: function() {
+	close: function() {
 		document.body.removeChild(this.b);
 		document.body.removeChild(this.e);
 		document.body.removeChild(this.m);
@@ -116,7 +114,7 @@ Q.box = {
 
 	i: function() {
 		document.body.onclick = function() {
-			Q.box.c();
+			Q.box.close();
 		}
 	},
 

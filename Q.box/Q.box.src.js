@@ -84,9 +84,7 @@ Q.box = {
 		box.style.borderRadius = "10px";
 		box.style.MozBorderRadius = "10px";
 		box.style.zIndex = 91;
-		try {
-			Q.opacity.set(box, this.opacity);
-		} catch (e) {}
+		Q.opacity(box, this.opacity);
 
 		document.body.appendChild(box);
 
