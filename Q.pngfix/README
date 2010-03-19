@@ -1,5 +1,5 @@
 Q.pngfix - small library (~1kb) for JavaScript to fix png-opacity in IE6.
-
+ 
 Using:
 Q.pngfix()
 
