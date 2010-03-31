@@ -1,0 +1,17 @@
+Q.hotkey - small library for JavaScript to bind keys.
+
+Using:
+
+window.onload = function() {
+	Q.fancybox.init();
+}
+
+OR
+
+<body onload="Q.fancybox.init();">
+
+Example:
+
+<a href="big_img.png" class="Q.fancybox" title="omg da?">
+	<img src="small_img.png" alt="" />
+</a>

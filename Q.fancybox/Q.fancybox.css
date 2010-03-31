@@ -1,0 +1,62 @@
+div.Q-main {
+	position: fixed;
+	-position: absolute;
+	z-index: 1000;
+	background-color: white;
+	padding: 10px;
+}
+
+div.Q-main img {
+	display: block;
+}
+
+div.Q-overlay {
+	position: fixed;
+	-position: absolute;
+	-width: 100%;
+	-height: 100%;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: #000;
+	z-index: 998;
+	display: none;
+	opacity: 0.3;
+}
+
+div.Q-load {
+	width: 160px;
+	height: 24px;
+	position: fixed;
+	-position: absolute;
+	z-index: 999;
+	display: none;
+	opacity: 0.8;
+	cursor: wait;
+	color: white;
+	text-align: center;
+	font-size: large;
+	background: transparent url('Q-loading.gif') no-repeat;
+}
+
+div.Q-description {
+	padding-top: 10px;
+	background-color: white;
+	font-family: Arial, Sans-serif;
+	font-size: 12px;
+	display: block;
+}
+
+div.Q-close {
+	height: 30px;
+	width: 30px;
+	position: fixed;
+	-position: absolute;
+	background: url(Q-close.png);
+	-background: none;
+	cursor: pointer;
+	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='Q-close.png', sizingMethod='scale');
+	z-index: 1001;
+	display: none;
+}
