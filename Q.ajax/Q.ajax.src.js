@@ -33,7 +33,7 @@ Q.ajax = {
 
 	post: function(url, data, callback, type) {
 		p = [];
-		for (var g in data) p.push(g + "=" + data[g]); // .replace(/%20/g, "+") - replace space on plus
+		for (var g in data) p.push(g + "=" + encodeURIComponent(data[g])); // .replace(/%20/g, "+") - replace space on plus
 		this.ajax(url, p.join("&"), callback, "POST", type);
 	},
 
