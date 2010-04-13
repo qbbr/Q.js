@@ -1,6 +1,6 @@
 /**
  * Q.ajax Library
- * Copyright (c) 2009 Sokolov Innokenty
+ * Copyright (c) 2010 Sokolov Innokenty
  */
 
 /**
@@ -12,6 +12,10 @@
  */
 if(!Q) var Q = {};
 Q.ajax = {
+	onStart: null,
+	onSuccess: null,
+	onFail: null,
+
 	HTTPobj: function() {
 		h = null;
 		if (window.XMLHttpRequest) h = new XMLHttpRequest(); // Gecko, WebKit...
@@ -40,6 +44,7 @@ Q.ajax = {
 	ajax: function(url, data, callback, method, type) {
 		h = this.getHTTPobj(); // called every time (disable cache)
 		if (h && url) {
+			if (this.onStart()) this.onStart(); // on ajax start
 			if (h.overrideMimeType) h.overrideMimeType("text/plain"); // or text/xml
 
 			url += ((url.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
@@ -53,15 +58,22 @@ Q.ajax = {
 			}
 
 			h.onreadystatechange = function() {
-				if (h.readyState == 4 && h.status == 200) {
-					a = h.responseText;
-					if (type == "json" && a) a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
-					if (callback) callback(a);
+				if (h.readyState == 4) {
+					if (h.status == 200) {
+						a = h.responseText;
+						if (type == "json" && a) a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
+						if (callback) callback(a);
+						if (Q.ajax.onSuccess()) Q.ajax.onSuccess(); // ajax is complite and success
+					} else {
+						if (Q.ajax.onFail()) Q.ajax.onFail(); // ajax is complite and fail
+					}
 				}
 			}
 			h.send(data);
 		}
 	},
 
-	getHTTPobj: function() {return this.HTTPobj();}
+	getHTTPobj: function() {
+		return this.HTTPobj();
+	}
 }

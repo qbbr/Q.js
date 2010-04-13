@@ -14,8 +14,26 @@ callback(Optional) : function
 type(Optional) : string
 	type of the return data: "text"(default), json.
 
+Q.ajax.onStart - callback (Optional) : function
+	call when ajax is start
+Q.ajax.onSuccess - callback (Optional) : function
+	call when ajax is complete and success (state 200)
+Q.ajax.onFail - callback (Optional) : function
+	call when ajax is complete and fail
 
 Example:
+
+Q.ajax.onStart = function() {
+	alert("ajax: start");
+}
+
+Q.ajax.onSuccess = function() {
+	alert("ajax: onSuccess");
+}
+
+Q.ajax.onFail = function() {
+	alert("ajax: fail");
+}
 
 function post() {
 	var value = document.getElementById("elm1").value;
