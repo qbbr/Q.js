@@ -3,7 +3,7 @@
  * Copyright (c) 2010 Sokolov Innokenty
  */
 
-if(!Q) var Q = {};
+if (!Q) var Q = {};
 
 Q = {
 	id: function(i) {
