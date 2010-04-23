@@ -1,6 +1,5 @@
 Q.notification - small library for JavaScript to show popups notification
-
-(Optional) needs Q.opacity lib
+-------------------------------------------------------------------------
 
 Using:
 Q.notification.show(text)

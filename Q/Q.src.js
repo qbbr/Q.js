@@ -1,9 +1,10 @@
 /**
  * Q Library
- * Copyright (c) 2009 Sokolov Innokenty
+ * Copyright (c) 2010 Sokolov Innokenty
  */
 
 if(!Q) var Q = {};
+
 Q = {
 	id: function(id) {
 		return (document.getElementById(id)) ? document.getElementById(id) : null;
@@ -15,18 +16,16 @@ Q = {
 	},
 
 	addClass: function(e, cls) {
-		if (!this.hasClass(e,cls)) e.className += " " + cls;
+		if (!this.hasClass(e, cls)) e.className += " " + cls;
 	},
 
 	hasClass: function(e, cls) {
-		return e.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+		return e.className.match(new RegExp("(\\s|^)" + cls + "(\\s|$)"));
 	},
 
 	removeClass: function(e, cls) {
-		//if (this.hasClass(e,cls)) {
-			var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
-			e.className = e.className.replace(reg,' ');
-		//}
+		var reg = new RegExp("(\\s|^)" + cls + "(\\s|$)");
+		e.className = e.className.replace(reg, " ");
 	},
 
 	setCookie: function(name, value, days) {
@@ -40,12 +39,12 @@ Q = {
 	},
 
 	getCookie: function(name) {
-		var EQ = name + "=";
+		var f = name + "=";
 		var ca = document.cookie.split(';');
 		for (i = 0; i < ca.length; i++) {
 			var c = ca[i];
 			while (c.charAt(0) == ' ') c = c.substring(1,c.length);
-			if (c.indexOf(EQ) == 0) return c.substring(EQ.length,c.length);
+			if (c.indexOf(f) == 0) return c.substring(f.length,c.length);
 		}
 		return null;
 	},

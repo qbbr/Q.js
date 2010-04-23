@@ -1,9 +1,15 @@
 /**
  * Q.notification Library
- * Copyright (c) 2009 Sokolov Innokenty
+ * Copyright (c) 2010 Sokolov Innokenty
+ */
+
+/**
+ * @example Q.notification.show("hello")
+ * @desc say: hello
  */
 
 if (!Q) var Q = {};
+
 Q.notification = {
 	sec: 4,
 	backgroundColor: "#333",
@@ -12,8 +18,9 @@ Q.notification = {
 
 	show: function(text) {
 		this.close();
+
 		box = document.createElement("div");
-		box.style.position = Q.browser().ie ? "absolute" : "fixed";
+		box.style.position = (document.all) ? "absolute" : "fixed";
 		box.style.top = "10px";
 		box.style.right = "10px";
 		box.style.backgroundColor = this.backgroundColor;
@@ -22,17 +29,20 @@ Q.notification = {
 		box.style.borderRadius = "5px";
 		box.style.MozBorderRadius = "5px";
 		box.style.cursor = "help";
-		Q.opacity(box, 0.7);
+		box.style.opacity = this.opacity;
+		box.style.filter = 'alpha(opacity=' + this.opacity * 100 + ')';
 		box.innerHTML = text;
+
 		box.onclick = function() {
 			Q.notification.close();
 		}
-		this.t = setTimeout(
-			function() {
-				Q.notification.close();
-			}, this.sec*1000
-		);
+
+		this.t = setTimeout(function() {
+			Q.notification.close();
+		}, this.sec * 1000);
+
 		this.box = box;
+
 		document.body.appendChild(box);
 	},
 

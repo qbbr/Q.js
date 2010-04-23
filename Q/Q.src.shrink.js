@@ -1,9 +1,10 @@
 /**
  * Q Library
- * Copyright (c) 2009 Sokolov Innokenty
+ * Copyright (c) 2010 Sokolov Innokenty
  */
 
 if(!Q) var Q = {};
+
 Q = {
 	id: function(i) {
 		return (document.getElementById(i)) ? document.getElementById(i) : null;
@@ -15,37 +16,35 @@ Q = {
 	},
 
 	addClass: function(e, c) {
-		if (!this.hasClass(e,c)) e.className += " " + c;
+		if (!this.hasClass(e, c)) e.className += " " + c;
 	},
 
 	hasClass: function(e, c) {
-		return e.className.match(new RegExp('(\\s|^)' + c + '(\\s|$)'));
+		return e.className.match(new RegExp("(\\s|^)" + c + "(\\s|$)"));
 	},
 
 	removeClass: function(e, c) {
-		//if (this.hasClass(e,cls)) {
-			var r = new RegExp('(\\s|^)' + c + '(\\s|$)');
-			e.className = e.className.replace(r,' ');
-		//}
+		var reg = new RegExp("(\\s|^)" + c + "(\\s|$)");
+		e.className = e.className.replace(reg, " ");
 	},
 
 	setCookie: function(n, v, d) {
-		var x = "";
+		var expires = "";
 		if (d) {
 			var date = new Date();
 			date.setTime(date.getTime() + (d * 24 * 60 * 60 * 1000));
-			x = "; expires=" + date.toGMTString();
+			expires = "; expires=" + date.toGMTString();
 		}
-		document.cookie = n + "=" + v + x + "; path=/";
+		document.cookie = n + "=" + v + expires + "; path=/";
 	},
 
 	getCookie: function(n) {
-		var q = n + "=";
+		var f = n + "=";
 		var a = document.cookie.split(';');
 		for (i = 0; i < a.length; i++) {
 			var c = a[i];
 			while (c.charAt(0) == ' ') c = c.substring(1,c.length);
-			if (c.indexOf(q) == 0) return c.substring(q.length,c.length);
+			if (c.indexOf(f) == 0) return c.substring(f.length,c.length);
 		}
 		return null;
 	},

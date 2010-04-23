@@ -10,7 +10,9 @@
  * @example Q.ajax.post(url, data, callback, type)
  * @desc Using an HTTP POST request
  */
+
 if(!Q) var Q = {};
+
 Q.ajax = {
 	onStart: null,
 	onSuccess: null,
@@ -44,7 +46,7 @@ Q.ajax = {
 	a: function(u, d, c, m, t) {
 		h = this.g(); // called every time (disable cache)
 		if (h && u) {
-			if (this.onStart()) this.onStart(); // ajax is started
+			if (typeof this.onStart == "function") this.onStart(); // on ajax start
 			if (h.overrideMimeType) h.overrideMimeType("text/plain"); // or text/xml
 
 			u += ((u.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
@@ -63,9 +65,9 @@ Q.ajax = {
 						a = h.responseText;
 						if (t == "json" && a) a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
 						if (c) c(a);
-						if (Q.ajax.onSuccess()) Q.ajax.onSuccess(); // ajax is complite and success
+						if (typeof Q.ajax.onSuccess == "function") Q.ajax.onSuccess(); // ajax is complite and success
 					} else {
-						if (Q.ajax.onFail()) Q.ajax.onFail(); // ajax is complite and fail
+						if (typeof Q.ajax.onFail == "function") Q.ajax.onFail(); // ajax is complite and fail
 					}
 				}
 			}
