@@ -75,3 +75,87 @@ Q = {
 		elm.style.filter = 'alpha(opacity=' + opacity * 100 + ')';
 	}
 };
+
+
+
+/**
+ * @todo onDomReady
+ */
+
+var dom_ready = false, call_list = [];
+document.onReady = function(f) {
+	if (dom_ready) {
+		f();
+	} else {
+		call_list.push(f);
+	}
+}
+
+window.onload = function() {
+	dom_ready = true;
+	for (var i = 0; i < call_list.length; i++) {
+		call_list[i]();
+	}
+}
+
+
+/**
+ * @todo getElementsByClassName
+ */
+
+if (!document.getElementsByClassName) {
+	document.getElementsByClassName = function(cls) {
+		var a = [];
+		var r = new RegExp("(^|\\s)" + cls + "(\\s|$)");
+		var e = this.getElementsByTagName("*");
+
+		for (var i = 0; i < e.length; i++) {
+			if (r.test(e[i].className)) a.push(e[i]);
+		}
+		return a;
+	}
+}
+
+
+/**
+ * @todo array
+ */
+
+Array.prototype.in_array = function(v) {
+	var l = this.length;
+	for (var i = 0; i < l; i++) {
+    if (this[i] === v) return true;
+	}
+	return false;
+}
+
+
+/**
+ * @todo string
+ */
+
+String.prototype.trim = function(c) {
+	return this.ltrim(c).rtrim(c);
+}
+
+String.prototype.ltrim = function(c) {
+	c = c || "\\s";
+	return this.replace(new RegExp("^[" + c + "]+", "g"), "");
+}
+
+String.prototype.rtrim = function(c) {
+	c = c || "\\s";
+	return this.replace(new RegExp("[" + c + "]+$", "g"), "");
+}
+
+String.prototype.strip_tags = function() {
+	return this.replace(/<\w+(\s+("[^"]*"|'[^']*'|[^>])+)?>|<\/\w+>/gi, "");
+}
+
+String.prototype.escapeHTML = function() {
+	return this.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+String.prototype.unescapeHTML = function() {
+	return this.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+}
