@@ -1,81 +1,135 @@
 /**
  * Q.ajax Library
- * Copyright (c) 2010 Sokolov Innokenty
+ * @author Sokolov Innokenty, <qbbr@qbbr.ru>
  */
 
 /**
- * @example Q.ajax.get(url, callback, type)
- * @desc Using an HTTP GET request.
- *
- * @example Q.ajax.post(url, data, callback, type)
- * @desc Using an HTTP POST request
+ * @example
+ * var AJAX = new Q.ajax();
+ * ajax.type = "json";
+ * ajax.onSuccess = function() {...};
+ * ajax.get("/path/to/json/");
  */
 
-if(!Q) var Q = {};
+if (!Q) var Q = {};
 
-Q.ajax = {
-	onStart: null,
-	onSuccess: null,
-	onFail: null,
+(function(){
 
-	HTTPobj: function() {
-		h = null;
-		if (window.XMLHttpRequest) h = new XMLHttpRequest(); // Gecko, WebKit...
+	/**
+	 * @constructor
+	 * @return {void}
+	 */
+	Q.ajax = function() {
+
+		/**
+		 * XMLHttp object
+		 * @private
+		 */
+		var Obj = null;
+
+		if (window.XMLHttpRequest) Obj = new XMLHttpRequest(); // Gecko, WebKit...
 		else if (window.ActiveXObject) { // IE (Trident [MSHTML])
 			try {
-				h = new ActiveXObject("Msxml2.XMLHTTP");
+				Obj = new ActiveXObject("Msxml2.XMLHTTP");
 			} catch (e) {
 				try {
-					h = new ActiveXObject("Microsoft.XMLHTTP");
+					Obj = new ActiveXObject("Microsoft.XMLHTTP");
 				} catch (e) {}
 			}
 		}
-		return h;
-	},
 
-	get: function(url, callback, type) {
-		this.ajax(url, null, callback, "GET", type);
-	},
+		return {
 
-	post: function(url, data, callback, type) {
-		p = [];
-		for (var g in data) p.push(g + "=" + encodeURIComponent(data[g])); // .replace(/%20/g, "+") - replace space on plus
-		this.ajax(url, p.join("&"), callback, "POST", type);
-	},
+			/**
+			 * type of data back from server
+			 * @public
+			 */
+			type: "", // text|json
 
-	ajax: function(url, data, callback, method, type) {
-		h = this.getHTTPobj(); // called every time (disable cache)
-		if (h && url) {
-			if (typeof this.onStart == "function") this.onStart(); // on ajax start
-			if (h.overrideMimeType) h.overrideMimeType("text/plain"); // or text/xml
+			/**
+			 * callback function - ajax request is fail
+			 * @public
+			 * @param {int} error
+			 */
+			onFail: null,
 
-			url += ((url.indexOf("?") + 1) ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
+			/**
+			 * callback function - ajax request is success
+			 * @public
+			 * @param {string} data from server
+			 */
+			onSuccess: null,
 
-			h.open(method, url, true);
+			/**
+			 * callback function - ajax start
+			 * @public
+			 */
+			onStart: null,
 
-			if (method == "POST") {
-				h.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-				h.setRequestHeader("Content-length", data.length);
-				h.setRequestHeader("Connection", "close");
-			}
+			/**
+			 * HTTP_GET request
+			 * @public
+			 * @param {string} url
+			 */
+			get: function(url) {
+				this.ajax(url, null, "GET");
+			},
 
-			h.onreadystatechange = function() {
-				if (h.readyState == 4) {
-					if (h.status == 200) {
-						a = h.responseText;
-						if (type == "json" && a) a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
-						if (callback) callback(a);
-						if (typeof Q.ajax.onSuccess == "function") Q.ajax.onSuccess(); // ajax is complite and success
-					} else {
-						if (typeof Q.ajax.onFail == "function") Q.ajax.onFail(); // ajax is complite and fail
+			/**
+			 * HTTP_POST request
+			 * @public
+			 * @param {string} url
+			 * @param {obj} data
+			 */
+			post: function(url, data) {
+				var p = [];
+				for (var g in data) {
+					p.push(g + "=" + encodeURIComponent(data[g])); // .replace(/%20/g, "+") - replace space on plus
+				}
+				this.ajax(url, p.join("&"), "POST");
+			},
+
+			/**
+			 * request
+			 * @public
+			 * @param {string} url
+			 * @param {obj} data
+			 * @param {string} method [GET|POST]
+			 */
+			ajax: function(url, data, method) {
+				if (Obj && url) {
+					typeof this.onStart == "function" && this.onStart(); // on ajax start
+
+					Obj.overrideMimeType && Obj.overrideMimeType("text/plain"); // or text/xml
+
+					url += (url.indexOf("?") + 1 ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
+
+					Obj.open(method, url, true);
+
+					if (method == "POST") {
+						Obj.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+						Obj.setRequestHeader("Content-length", data.length);
+						Obj.setRequestHeader("Connection", "close");
 					}
+
+					(function(Obj, self) {
+						Obj.onreadystatechange = function() {
+							if (Obj.readyState == 4) {
+								if (Obj.status == 200) {
+									var a = Obj.responseText;
+									if (self.type == "json" && a) a = eval("(" + a.replace(/[\r\n]/g, "") + ")"); // fix IE bug (\n)
+									typeof self.onSuccess == "function" && self.onSuccess(a); // ajax is complite and success
+								} else typeof self.onFail == "function" && self.onFail(Obj.status); // ajax is complite and fail
+							}
+						}
+					})(Obj, this);
+
+					Obj.send(data);
 				}
 			}
-			h.send(data);
-		}
-	},
 
-	getHTTPobj: function() {
-		return this.HTTPobj();
+		}
+
 	}
-}
+
+})();

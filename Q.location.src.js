@@ -2,21 +2,21 @@
  * Q.location Library
  * Работа с URI
  *
- * @author Sokolov Innokenty, qbbr
+ * @author Sokolov Innokenty, <qbbr@qbbr.ru>
  */
 
 if (!Q) var Q = {};
 
 Q.location = (function() {
 
-	var hash = (window.location.hash.length)
+	var hash = (window.location.hash)
 		? atob(window.location.hash.substr(1)).split(";")
 		: [];
 
-	var url = (window.location.hash.length)
+	var url = (window.location.hash)
 		? window.location.href.substr(0, window.location.href.length - window.location.hash.length)
 		: window.location.href;
-	
+
 	return {
 
 		/**
@@ -34,7 +34,7 @@ Q.location = (function() {
 		getHashObj: function() {
 			var o = {}, v;
 			for (var i = 0; i < hash.length; i++) {
-				v = hash[i].split("=");
+				v = hash[i].split("==");
 				o[v[0]] = v[1];
 			}
 
@@ -43,24 +43,35 @@ Q.location = (function() {
 
 		/**
 		 * получить значение
+		 * @param {str|int} k ключ
 		 * @return string
 		 */
-		getHashParam: function(key) {
-			return this.getHashObj()[key];
+		getHashParam: function(k) {
+			return this.getHashObj()[k];
 		},
 
 		/**
 		 * установить значение
+		 * @param {str|int} k ключ
+		 * @param {str|int} v значение
 		 * @return bool
 		 */
 		setHashParam: function(k, v) {
-			if (!this.getHashObj()[k]) {
-				hash.push(k + "=" + v);
-				window.location.hash = this.getHash();
-				return true;
+			if (this.getHashObj()[k]) {
+				var b;
+				for (var i = 0; i < hash.length; i++) {
+					b = hash[i].split("==");
+					if (b[0] == k) {
+						hash[i] = k + "==" + v;
+						break;
+					}
+				}
+			} else {
+				hash.push(k + "==" + v);
 			}
+			window.location.hash = this.getHash();
 
-			return false;
+			return true;
 		},
 
 		/**
@@ -73,4 +84,4 @@ Q.location = (function() {
 
 	}
 
-})()
+})();
