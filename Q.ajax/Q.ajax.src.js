@@ -70,6 +70,7 @@ if (!Q) var Q = {};
 			 * HTTP_GET request
 			 * @public
 			 * @param {string} url
+			 * @return {void}
 			 */
 			get: function(url) {
 				this.ajax(url, null, "GET");
@@ -80,6 +81,7 @@ if (!Q) var Q = {};
 			 * @public
 			 * @param {string} url
 			 * @param {obj} data
+			 * @return {void}
 			 */
 			post: function(url, data) {
 				var p = [];
@@ -95,6 +97,7 @@ if (!Q) var Q = {};
 			 * @param {string} url
 			 * @param {obj} data
 			 * @param {string} method [GET|POST]
+			 * @return {void}
 			 */
 			ajax: function(url, data, method) {
 				if (Obj && url) {
@@ -102,7 +105,7 @@ if (!Q) var Q = {};
 
 					Obj.overrideMimeType && Obj.overrideMimeType("text/plain"); // or text/xml
 
-					url += (url.indexOf("?") + 1 ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
+					url += (url.indexOf("?") + 1 ? "&" : "?") + "timestamp=" + (new Date).getTime(); // timestamp - fix IE bug (disable cache)
 
 					Obj.open(method, url, true);
 

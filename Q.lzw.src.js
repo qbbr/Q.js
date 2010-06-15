@@ -8,46 +8,62 @@
 if (!Q) var Q = {};
 
 Q.lzw = (function() {
-		
-		var separator = ",";
 
-		return {
+	/**
+	 * пазделитель
+	 * @private
+	 */
+	var separator = ",";
 
-			compress: function(text) {
-				var i, w = "", result = [], dictionary = {}, dict_size = 256;
+	return {
 
-				for (i = 0; i < 256; i++) {
-					dictionary[String.fromCharCode(i)] = i;
+		/**
+		 * сжать текст
+		 * @public
+		 * @param {str} text текст
+		 * @return {str}
+		 */
+		compress: function(text) {
+			var i, w = "", result = [], dictionary = {}, dict_size = 256;
+
+			for (i = 0; i < 256; i++) {
+				dictionary[String.fromCharCode(i)] = i;
+			}
+
+			for (i = 0; i < text.length; i++) {
+				var c = text.charAt(i),  wc = w + c;
+
+				if (dictionary[wc]) {
+					w = wc;
+				} else {
+					result.push(dictionary[w]);
+
+					dictionary[wc] = dict_size++;
+					w = "" + c; // is string
 				}
+			}
 
-				for (i = 0; i < text.length; i++) {
-					var c = text.charAt(i),  wc = w + c;
+			if (w != "") result.push(dictionary[w]);
 
-					if (dictionary[wc]) {
-						w = wc;
-					} else {
-						result.push(dictionary[w]);
+			return result.join(separator);
+		},
 
-						dictionary[wc] = dict_size++;
-						w = "" + c; // is string
-					}
-				}
+		/**
+		 * расжать текст
+		 * @public
+		 * @param {str} text текст
+		 * @return {str}
+		 */
+		decompress: function(text) {
+			var i, dictionary = [], dictSize = 256;
 
-				if (w != "") result.push(dictionary[w]);
+			for (i = 0; i < 256; i++) {
+				dictionary[i] = String.fromCharCode(i);
+			}
 
-				return result.join(separator);
-			},
+			text = text.split(separator);
 
-			decompress: function(text) {
-				var i, dictionary = [], dictSize = 256;
-
-				for (i = 0; i < 256; i++) {
-					dictionary[i] = String.fromCharCode(i);
-				}
-
-				text = text.split(separator);
-
-				var w = String.fromCharCode(text[0]), result = w;
+			var w = String.fromCharCode(text[0]), result = w;
 
 			for (i = 1; i < text.length; i++) {
 				var entry = "";

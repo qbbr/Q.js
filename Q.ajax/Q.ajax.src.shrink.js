@@ -70,6 +70,7 @@ if (!Q) var Q = {};
 			 * HTTP_GET request
 			 * @public
 			 * @param {string} u
+			 * @return {void}
 			 */
 			get: function(u) {
 				this.a(u, null, "GET");
@@ -80,6 +81,7 @@ if (!Q) var Q = {};
 			 * @public
 			 * @param {string} u
 			 * @param {obj} d
+			 * @return {void}
 			 */
 			post: function(u, d) {
 				var p = [];
@@ -95,6 +97,7 @@ if (!Q) var Q = {};
 			 * @param {string} u
 			 * @param {obj} d
 			 * @param {string} m [GET|POST]
+			 * @return {void}
 			 */
 			a: function(u, d, m) {
 				if (o && u) {
@@ -102,7 +105,7 @@ if (!Q) var Q = {};
 
 					o.overrideMimeType && o.overrideMimeType("text/plain"); // or text/xml
 
-					u += (u.indexOf("?") + 1 ? "&" : "?") + "timestamp=" + new Date().getTime(); // timestamp - fix IE bug (disable cache)
+					u += (u.indexOf("?") + 1 ? "&" : "?") + "timestamp=" + (new Date).getTime(); // timestamp - fix IE bug (disable cache)
 
 					o.open(m, u, true);
 

@@ -1,6 +1,6 @@
 /**
  * Q.location Library
- * Работа с URI
+ * Работа с URI (base64)
  *
  * @author Sokolov Innokenty, <qbbr@qbbr.ru>
  */
@@ -21,7 +21,8 @@ Q.location = (function() {
 
 		/**
 		 * получение hash`a
-		 * @return string(base64)
+		 * @public
+		 * @return {string(base64)}
 		 */
 		getHash: function() {
 			return btoa(hash.join(";"));
@@ -29,7 +30,8 @@ Q.location = (function() {
 
 		/**
 		 * получение hash`a в виде объекта
-		 * @return obj
+		 * @public
+		 * @return {obj}
 		 */
 		getHashObj: function() {
 			var o = {}, v;
@@ -43,8 +45,9 @@ Q.location = (function() {
 
 		/**
 		 * получить значение
+		 * @public
 		 * @param {str|int} k ключ
-		 * @return string
+		 * @return {string}
 		 */
 		getHashParam: function(k) {
 			return this.getHashObj()[k];
@@ -52,9 +55,10 @@ Q.location = (function() {
 
 		/**
 		 * установить значение
+		 * @public
 		 * @param {str|int} k ключ
 		 * @param {str|int} v значение
-		 * @return bool
+		 * @return {bool}
 		 */
 		setHashParam: function(k, v) {
 			if (this.getHashObj()[k]) {
@@ -76,7 +80,8 @@ Q.location = (function() {
 
 		/**
 		 * текущий url без протокола и hash`a
-		 * @return string
+		 * @public
+		 * @return {string}
 		 */
 		getCurURL: function() {
 			return url.replace(eval("/.*" + window.location.host + "(.*)/"), "$1");
