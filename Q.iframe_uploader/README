@@ -1,0 +1,14 @@
+Q.iframe_uploader - small library for JavaScript to upload file on a remote server without refresh page.
+
+Example:
+
+	<form action="/urlto/test.php" method="post" onsubmit="Q.iframe_uploader.submit(this, callback);">
+		<input type="text" name="test" />
+		<input type="submit" />
+	</form>
+
+	<script type="text/javascript">
+		var callback = function(d) {
+			alert(d);
+		}
+	</script>
