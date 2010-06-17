@@ -2,14 +2,14 @@ Q.browser - detect browser and version
 --------------------------------------
 
 Using:
-Q.browser()
+Q.browser
 
 Example:
 
-if (Q.browser().ie) {
+if (Q.browser.ie) {
 	alert("its IE");
 }
 
-if (Q.browser().ie == 6) {
+if (Q.browser.ie == 6) {
 	alert("its IE6")
 }
